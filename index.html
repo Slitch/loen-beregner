@@ -30,11 +30,13 @@
     </p>
 
     <script>
-
+    // ===== FUNKTION ===== 
     function loen_beregn()
     {
-        // Først gør vi variabler klar. pro = procent
+        // SET VARIABLER FOR HVERT INPUT 
+        // INFO: pro = procent
         var bruttoloen, fradrag, am_bidrag_pro, am_pension_pro, atp_pension, traekprocent;
+        
         bruttoloen = document.getElementById("bruttoloen").value;
         fradrag = document.getElementById("fradrag").value;
         am_bidrag_pro = document.getElementById("am_bidrag_procent").value;
@@ -42,8 +44,13 @@
         atp_pension = document.getElementById("atp_pension").value;
         traekprocent = document.getElementById("traekprocent").value;
 
-        // Her er mellem regning. res = resultat
-        var am_pension_res, am_bidrag_res, nettoloen,a_indkomst, skatte_grundlag, betal_til_skat, loen_til_udbetaling, resultat;
+        // ===== MELLEM REGNING ===== 
+        // INFO: res = resultat
+        
+        // Klargøring a variabler til mellemregning
+        var am_pension_res, am_bidrag_res, nettoloen, a_indkomst, skatte_grundlag, betal_til_skat, loen_til_udbetaling, resultat;
+        
+        // Variabler beregnes
         am_pension_res = (bruttoloen / 100) * am_pension_pro;
         am_bidrag_res = (((bruttoloen - atp_pension) - am_pension_res) / 100) * am_bidrag_pro;
         nettoloen = ((bruttoloen - atp_pension) - am_pension_res) - am_bidrag_res;
@@ -52,20 +59,10 @@
         betal_til_skat = (skatte_grundlag / 100) * traekprocent;
         loen_til_udbetaling = nettoloen - betal_til_skat;
         resultat = Math.floor(loen_til_udbetaling)
-
-        document.getElementById("loen_result").innerHTML = resultat;
+        
+        // Indsæt resultat i ID
+        document.getElementById("loen_result").innerHTML = resultat;   
     }
-
-
-
-    function multiplyBy()
-    {
-        num1 = document.getElementById("firstNumber").value;
-        num2 = document.getElementById("secondNumber").value;
-        document.getElementById("result").innerHTML = num1 * num2;
-    }
-
-
 </script>
 </body>
 </html>
