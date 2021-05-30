@@ -1,0 +1,72 @@
+<!DOCTYPE html> 
+<html lang="da-DK">
+<head>
+    <meta charset=utf-8 />
+    <title>Løn beregner - prototype</title>
+    <style>
+    html {background-color: #00ccff;}
+    body {margin: 30px;}
+</style> 
+</head>
+<body>
+    <form>
+        Bruttoløn :     <input type="number" id="input_bruttoloen" />DKK<br>
+        Fradrag :       <input type="number" id="input_fradrag" />DKK<br>
+        AM bidrag :     <input type="number" id="input_am_bidrag_pro" value="8" />%<br>
+        AM pension :    <input type="number" id="input_am_pension_pro" value="4" />%<br>
+        ATP pension :   <input type="number" id="input_atp_pension" value="90" />DKK<br>
+        Trækprocent :   <input type="number" id="input_traekprocent" value="37" />%<br>
+        <input type="button" onClick="loen_beregn()" Value="Beregn løn til udbetaling" />
+        <br>
+    </form>
+    <p>Løn til udbetaling : <span id = "loen_result"></span>
+    </p>
+
+    <script>
+    // ===== FUNKTION ===== 
+    function loen_beregn()
+    {
+        // SET VARIABLER FOR HVERT INPUT 
+        var
+
+        input_bruttoloen =        document.getElementById("input_bruttoloen").value,
+        input_fradrag =           document.getElementById("input_fradrag").value,
+        input_am_bidrag_pro =     document.getElementById("input_am_bidrag_pro").value,
+        input_am_pension_pro =    document.getElementById("input_am_pension_pro").value,
+        input_atp_pension =       document.getElementById("input_atp_pension").value,
+        input_traekprocent =      document.getElementById("input_traekprocent").value;
+
+        // ===== MELLEM REGNING ===== 
+        // INFO: _kr = kroner (omregn procent til kroner)
+
+        // Klargøring a variabler til mellemregning
+        var
+
+        // Variabler beregnes
+        // am_pension =            (input_bruttoloen / 100) * input_am_pension_pro,
+        // am_bidrag =             (((input_bruttoloen - input_atp_pension) - am_pension) / 100) * input_am_bidrag_pro,
+        // nettoloen =             ((input_bruttoloen - input_atp_pension) - am_pension) - am_bidrag,
+        // a_indkomst =            nettoloen,
+        // skatte_grundlag =       a_indkomst - input_fradrag,
+        // betal_til_skat =        (skatte_grundlag / 100) * input_traekprocent,
+        // loen_til_udbetaling =   nettoloen - betal_til_skat,
+        // resultat =              Math.floor(loen_til_udbetaling);
+
+
+        // Variablerne burde vaere korrekte nu eller kan du selv kontrollere det
+        am_pension =        (input_bruttoloen / 100) * input_am_pension_pro,
+        am_bidrag =         (((input_bruttoloen - input_atp_pension) - am_pension) / 100) * input_am_bidrag_pro,
+        a_indkomst =        ((input_bruttoloen - input_atp_pension) - am_pension) - am_bidrag,
+        skatte_grundlag =   a_indkomst - input_fradrag,
+        skat =              (skatte_grundlag / 100) * input_traekprocent,
+        nettoloen =         a_indkomst - skat,
+        resultat =          Math.floor(nettoloen);
+
+        // Indsæt resultat i ID
+        // document.getElementById("loen_result").innerHTML = resultat;
+        document.getElementById("loen_result").innerHTML = new Intl.NumberFormat('da-DK').format(resultat) + ' Kr.';
+        // console.log(new Intl.NumberFormat('da-DK').format(resultat) + ' Kr.');
+    }
+</script>
+</body>
+</html>
