@@ -4,24 +4,60 @@
     <meta charset=utf-8 />
     <title>Løn beregner - prototype</title>
     <style>
-    html {background-color: #00ccff;}
+    html {
+        background-color: #00ccff;
+        font-size: 20px;
+        font-family: sans-serif;
+    }
     body {margin: 30px;}
 </style> 
 </head>
 <body>
+    <h1>Løn beregner</h1>
     <p>Skriv hele tal uden komma.</p>
-    <form>
-        Bruttoløn :     <input type="number" id="input_bruttoloen" />DKK<br>
-        Fradrag :       <input type="number" id="input_fradrag" />DKK<br>
-        AM bidrag :     <input type="number" id="input_am_bidrag_pro" value="8" />%<br>
-        AM pension :    <input type="number" id="input_am_pension_pro" value="4" />%<br>
-        ATP pension :   <input type="number" id="input_atp_pension" value="90" />DKK<br>
-        Trækprocent :   <input type="number" id="input_traekprocent" value="37" />%<br>
+    <!-- <form>
+        Bruttoløn :     <input type="text" id="input_bruttoloen" />DKK<br>
+        Fradrag :       <input type="text" id="input_fradrag" />DKK<br>
+        AM bidrag :     <input type="text" id="input_am_bidrag_pro" value="8" />%<br>
+        AM pension :    <input type="text" id="input_am_pension_pro" value="4" />%<br>
+        ATP pension :   <input type="text" id="input_atp_pension" value="90" />DKK<br>
+        Trækprocent :   <input type="text" id="input_traekprocent" value="37" />%<br>
         <input type="button" onClick="loen_beregn()" Value="Beregn løn til udbetaling" />
         <br>
-    </form>
-    <p>Løn til udbetaling : <span id = "loen_result"></span>
-    </p>
+    </form> -->
+    <table>
+  <tr>
+    <td><label for="input_bruttoloen">Bruttoløn :</label></td>
+    <td><input type="text" id="input_bruttoloen" name="input_bruttoloen" value=""> Kr.</td>
+  </tr>
+  <tr>
+    <td><label for="input_fradrag">Fradrag :</label></td>
+    <td><input type="text" id="input_fradrag" name="input_fradrag" value=""> Kr.</td>
+  </tr>
+  <tr>
+    <td><label for="input_am_bidrag_pro"><abbr title="Arbejdsmarkedets">AM</abbr> bidrag :</label></td>
+    <td><input type="text" id="input_am_bidrag_pro" name="input_am_bidrag_pro" value="8"> %</td>
+  </tr>
+  <tr>
+    <td><label for="input_am_pension_pro"><abbr title="Arbejdsmarkedets">AM</abbr> pension :</label></td>
+    <td><input type="text" id="input_am_pension_pro" name="input_am_pension_pro" value="4"> %</td>
+  </tr>
+  <tr>
+    <td><label for="input_atp_pension"><abbr title="Arbejdsmarkedets Tillægs Pension">ATP</abbr> pension :</label></td>
+    <td><input type="text" id="input_atp_pension" name="input_atp_pension" value="90"> Kr.</td>
+  </tr>
+  <tr>
+    <td><label for="input_traekprocent">Trækprocent :</label></td>
+    <td><input type="text" id="input_traekprocent" name="input_traekprocent" value="37"> %</td>
+  </tr>
+</table>
+<p>Løn til udbetaling : <strong><span id = "loen_result"></span></strong></p>
+<input type="button" onClick="loen_beregn()" Value="Beregn løn til udbetaling" />
+
+
+    <p>Undre du dig over hvofor beløb er rundet ned til nærmeste hele kroner, fortæller loven følgende:</p>
+    <h3>Kildeskatteloven: § 62. Stk. 4. </h3>
+    <p>Af det beløb, der efter foranstående skal udbetales den skattepligtige, udbetales kun det hele kronebeløb.</p>
 
     <script>
     // ===== FUNKTION ===== 
@@ -29,7 +65,6 @@
     {
         // SET VARIABLER FOR HVERT INPUT 
         var
-
         input_bruttoloen =        document.getElementById("input_bruttoloen").value,
         input_fradrag =           document.getElementById("input_fradrag").value,
         input_am_bidrag_pro =     document.getElementById("input_am_bidrag_pro").value,
@@ -39,22 +74,9 @@
 
         // ===== MELLEM REGNING ===== 
         // INFO: _kr = kroner (omregn procent til kroner)
-
         // Klargøring a variabler til mellemregning
-        var
-
-        // Variabler beregnes
-        // am_pension =            (input_bruttoloen / 100) * input_am_pension_pro,
-        // am_bidrag =             (((input_bruttoloen - input_atp_pension) - am_pension) / 100) * input_am_bidrag_pro,
-        // nettoloen =             ((input_bruttoloen - input_atp_pension) - am_pension) - am_bidrag,
-        // a_indkomst =            nettoloen,
-        // skatte_grundlag =       a_indkomst - input_fradrag,
-        // betal_til_skat =        (skatte_grundlag / 100) * input_traekprocent,
-        // loen_til_udbetaling =   nettoloen - betal_til_skat,
-        // resultat =              Math.floor(loen_til_udbetaling);
-
-
         // Variablerne burde vaere korrekte nu eller kan du selv kontrollere det
+        var 
         am_pension =        (input_bruttoloen / 100) * input_am_pension_pro,
         am_bidrag =         (((input_bruttoloen - input_atp_pension) - am_pension) / 100) * input_am_bidrag_pro,
         a_indkomst =        ((input_bruttoloen - input_atp_pension) - am_pension) - am_bidrag,
