@@ -1,63 +1,85 @@
-<!DOCTYPE html>
-<html> 
+<!DOCTYPE html> 
+<html lang="da-DK">
 <head>
     <meta charset=utf-8 />
     <title>Løn beregner - prototype</title>
-    <style type="text/css">
-        html {background-color: #00ccff;}
-        body {margin: 30px;}
-    </style> 
+    <style>
+    html {
+        background-color: #00ccff;
+        font-size: 20px;
+        font-family: sans-serif;
+    }
+    body {margin: 30px;}
+</style> 
 </head>
 <body>
-    <form>
-        Bruttoløn :     <input type="text" id="bruttoloen" />DKK.<br>
-        Fradrag :       <input type="text" id="fradrag" />DKK.<br>
-        AM bidrag :     <input type="text" id="am_bidrag_procent" value="8" />%.<br>
-        AM pension :    <input type="text" id="am_pension_procent" value="4" />%.<br>
-        ATP pension :   <input type="text" id="atp_pension" value="90" />DKK.<br>
-        Trækprocent :   <input type="text" id="traekprocent" value="37" />%.<br>
-        <br>
-        <input type="button" onClick="loen_beregn()" Value="Beregn løn til udbetaling" />
-    </form>
-    <p>The Result is : <br>
-    <span id = "loen_result"></span>
-    </p>
+    <h1>Løn beregner</h1>
+    <p>Skriv hele tal uden komma.</p>
+    <table>
+  <tr>
+    <td><label for="input_bruttoloen">Bruttoløn :</label></td>
+    <td><input type="text" id="input_bruttoloen" name="input_bruttoloen" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" > Kr.</td>
+  </tr>
+  <tr>
+    <td><label for="input_fradrag">Fradrag :</label></td>
+    <td><input type="text" id="input_fradrag" name="input_fradrag" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" > Kr.</td>
+  </tr>
+  <tr>
+    <td><label for="input_am_bidrag_pro"><abbr title="Arbejdsmarkedets">AM</abbr> bidrag :</label></td>
+    <td><input type="text" id="input_am_bidrag_pro" name="input_am_bidrag_pro" value="8" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" > %</td>
+  </tr>
+  <tr>
+    <td><label for="input_am_pension_pro"><abbr title="Arbejdsmarkedets">AM</abbr> pension :</label></td>
+    <td><input type="text" id="input_am_pension_pro" name="input_am_pension_pro" value="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" > %</td>
+  </tr>
+  <tr>
+    <td><label for="input_atp_pension"><abbr title="Arbejdsmarkedets Tillægs Pension">ATP</abbr> pension :</label></td>
+    <td><input type="text" id="input_atp_pension" name="input_atp_pension" value="90" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" > Kr.</td>
+  </tr>
+  <tr>
+    <td><label for="input_traekprocent">Trækprocent :</label></td>
+    <td><input type="text" id="input_traekprocent" name="input_traekprocent" value="37" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" > %</td>
+  </tr>
+</table>
+<p>Løn til udbetaling : <strong><span id = "loen_result"></span></strong></p>
+<input type="button" onClick="loen_beregn()" Value="Beregn løn til udbetaling" />
+
+
+    <p>Undre du dig over hvofor beløb er rundet ned til nærmeste hele kroner, fortæller loven følgende:</p>
+    <h3>Kildeskatteloven: § 62. Stk. 4. </h3>
+    <p>Af det beløb, der efter foranstående skal udbetales den skattepligtige, udbetales kun det hele kronebeløb.</p>
 
     <script>
     // ===== FUNKTION ===== 
     function loen_beregn()
     {
         // SET VARIABLER FOR HVERT INPUT 
-        // INFO: pro = procent
-        var bruttoloen, fradrag, am_bidrag_pro, am_pension_pro, atp_pension, traekprocent;
-        
-        bruttoloen = document.getElementById("bruttoloen").value;
-        fradrag = document.getElementById("fradrag").value;
-        am_bidrag_pro = document.getElementById("am_bidrag_procent").value;
-        am_pension_pro = document.getElementById("am_pension_procent").value;
-        atp_pension = document.getElementById("atp_pension").value;
-        traekprocent = document.getElementById("traekprocent").value;
+        var
+        input_bruttoloen =        document.getElementById("input_bruttoloen").value,
+        input_fradrag =           document.getElementById("input_fradrag").value,
+        input_am_bidrag_pro =     document.getElementById("input_am_bidrag_pro").value,
+        input_am_pension_pro =    document.getElementById("input_am_pension_pro").value,
+        input_atp_pension =       document.getElementById("input_atp_pension").value,
+        input_traekprocent =      document.getElementById("input_traekprocent").value;
 
         // ===== MELLEM REGNING ===== 
-        // INFO: res = resultat
-        
+        // INFO: _kr = kroner (omregn procent til kroner)
         // Klargøring a variabler til mellemregning
-        var am_pension_res, am_bidrag_res, nettoloen, a_indkomst, skatte_grundlag, betal_til_skat, loen_til_udbetaling, resultat;
-        
-        // Variabler beregnes
-        am_pension_res = (bruttoloen / 100) * am_pension_pro;
-        am_bidrag_res = (((bruttoloen - atp_pension) - am_pension_res) / 100) * am_bidrag_pro;
-        nettoloen = ((bruttoloen - atp_pension) - am_pension_res) - am_bidrag_res;
-        a_indkomst = nettoloen;
-        skatte_grundlag = a_indkomst - fradrag;
-        betal_til_skat = (skatte_grundlag / 100) * traekprocent;
-        loen_til_udbetaling = nettoloen - betal_til_skat;
-        resultat = Math.floor(loen_til_udbetaling)
-        
+        // Variablerne burde vaere korrekte nu eller kan du selv kontrollere det
+        var 
+        am_pension =        (input_bruttoloen / 100) * input_am_pension_pro,
+        am_bidrag =         (((input_bruttoloen - input_atp_pension) - am_pension) / 100) * input_am_bidrag_pro,
+        a_indkomst =        ((input_bruttoloen - input_atp_pension) - am_pension) - am_bidrag,
+        skatte_grundlag =   a_indkomst - input_fradrag,
+        skat =              (skatte_grundlag / 100) * input_traekprocent,
+        nettoloen =         a_indkomst - skat,
+        resultat =          Math.floor(nettoloen);
+
         // Indsæt resultat i ID
-        document.getElementById("loen_result").innerHTML = resultat;   
+        // document.getElementById("loen_result").innerHTML = resultat;
+        document.getElementById("loen_result").innerHTML = new Intl.NumberFormat('da-DK').format(resultat) + ' Kr.';
+        // console.log(new Intl.NumberFormat('da-DK').format(resultat) + ' Kr.');
     }
 </script>
 </body>
 </html>
-
