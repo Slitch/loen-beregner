@@ -40,26 +40,14 @@
     <main>
 
       <div class="input-group mb-3">
-        <span class="input-group-text">Løn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <input type="text" class="form-control" id="input_bruttoloen" placeholder="Løn" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+        <span class="input-group-text">feet</span>
+        <input type="text" class="form-control" id="feet" placeholder="feet" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
         <span class="input-group-text">kr</span>
       </div>
 
-      <div class="input-group mb-3">
-        <span class="input-group-text">ATP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <input type="text" class="form-control" id="input_atp_pension" value="90" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        <span class="input-group-text">kr</span>
-      </div>
-
-      <div class="input-group mb-3">
-        <span class="input-group-text">Trækprocent</span>
-        <input type="text" class="form-control" id="input_traekprocent" value="37" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        <span class="input-group-text">%</span>
-      </div>
-
-      <p class="fs-5 col-md-8">Løn til udbetaling : <strong><span id = "loen_result"></span></strong></p>
+      <p class="fs-5 col-md-8">Løn til udbetaling : <strong><span id = "convert_res"></span></strong></p>
       <div class="mb-5">
-        <input type="button" class="btn btn-primary btn-lg px-4" onClick="loen_beregn()" Value="Beregn løn til udbetaling" />
+        <input type="button" class="btn btn-primary btn-lg px-4" onClick="convert()" Value="calc" />
       </div>
 
       <hr class="col-3 col-md-2 mb-5">
@@ -102,20 +90,12 @@
   {
     // SET VARIABLER FOR HVERT INPUT 
     var
-    input_bruttoloen =        document.getElementById("input_bruttoloen").value,
-    input_fradrag =           document.getElementById("input_fradrag").value,
+    feet =        document.getElementById("feet").value,
 
-    // ===== MELLEM REGNING ===== 
-    // INFO: _kr = kroner (omregn procent til kroner)
-    // Klargøring a variabler til mellemregning
-    // Variablerne burde vaere korrekte nu eller kan du selv kontrollere det
     var 
-    am_pension =        (input_bruttoloen / 100) * input_am_pension_pro,
-    am_bidrag =         (((input_bruttoloen - input_atp_pension) - am_pension) / 100) * input_am_bidrag_pro,
-    a_indkomst =        ((input_bruttoloen - input_atp_pension) - am_pension) - am_bidrag,
-
+    convert =           feet * 30.48;
     // Indsæt resultat i ID
-    document.getElementById("loen_result").innerHTML = new Intl.NumberFormat('da-DK').format(resultat) + ' Kr.';
+    document.getElementById("convert_res").innerHTML = format(convert) + ' Centimeter';
   }
   </script>
 </body>
