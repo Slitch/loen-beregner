@@ -3,11 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <meta name="description" content="Løn beregner - Kontrollere om din udbetalte løn stemmer overens. Beregn løn i forhold til atp, pension, bidrag, trækprocent, osv">
+    <meta name="keywords" content="løn, bruttoløn, brutto, nettoløn, netto, atp, pension, Arbejdsmarkedsbidrag, Arbejdsmarkedets, Tillægspension, udbetalling, udbetalt, udegn, lommeregner, hvad får jeg i løn, hvad får jeg udbetalt, månedsløn, skattetræk, trækprocent ">
     <meta name="author" content="Poul Lynge Larsen">
-    <title>Starter Template · Bootstrap v5.0</title>
-    <!-- Bootstrap core CSS -->
-    <!-- CSS only -->
+    <title>Løn beregner</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <meta name="theme-color" content="#7952b3">
     <style>
@@ -113,37 +112,34 @@
     </footer>
   </div>
 
-  <!-- JavaScript Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-
   <script>
-    function loen_beregn()
-    {
-// SET VARIABLER FOR HVERT INPUT 
-var
-input_bruttoloen =        document.getElementById("input_bruttoloen").value,
-input_fradrag =           document.getElementById("input_fradrag").value,
-input_am_bidrag_pro =     document.getElementById("input_am_bidrag_pro").value,
-input_am_pension_pro =    document.getElementById("input_am_pension_pro").value,
-input_atp_pension =       document.getElementById("input_atp_pension").value,
-input_traekprocent =      document.getElementById("input_traekprocent").value;
+    function loen_beregn() {
+    // SET VARIABLER FOR HVERT INPUT 
+    var
+    input_bruttoloen =        document.getElementById("input_bruttoloen").value,
+    input_fradrag =           document.getElementById("input_fradrag").value,
+    input_am_bidrag_pro =     document.getElementById("input_am_bidrag_pro").value,
+    input_am_pension_pro =    document.getElementById("input_am_pension_pro").value,
+    input_atp_pension =       document.getElementById("input_atp_pension").value,
+    input_traekprocent =      document.getElementById("input_traekprocent").value;
 
-// ===== MELLEM REGNING ===== 
-// INFO: _kr = kroner (omregn procent til kroner)
-// Klargøring a variabler til mellemregning
-// Variablerne burde vaere korrekte nu eller kan du selv kontrollere det
-var 
-am_pension =        (input_bruttoloen / 100) * input_am_pension_pro,
-am_bidrag =         (((input_bruttoloen - input_atp_pension) - am_pension) / 100) * input_am_bidrag_pro,
-a_indkomst =        ((input_bruttoloen - input_atp_pension) - am_pension) - am_bidrag,
-skatte_grundlag =   a_indkomst - input_fradrag,
-skat =              (skatte_grundlag / 100) * input_traekprocent,
-nettoloen =         a_indkomst - skat,
-resultat =          Math.floor(nettoloen);
+    // ===== MELLEM REGNING ===== 
+    // INFO: _kr = kroner (omregn procent til kroner)
+    // Klargøring a variabler til mellemregning
+    // Variablerne burde vaere korrekte nu eller kan du selv kontrollere det
+    var 
+    am_pension =        (input_bruttoloen / 100) * input_am_pension_pro,
+    am_bidrag =         (((input_bruttoloen - input_atp_pension) - am_pension) / 100) * input_am_bidrag_pro,
+    a_indkomst =        ((input_bruttoloen - input_atp_pension) - am_pension) - am_bidrag,
+    skatte_grundlag =   a_indkomst - input_fradrag,
+    skat =              (skatte_grundlag / 100) * input_traekprocent,
+    nettoloen =         a_indkomst - skat,
+    resultat =          Math.floor(nettoloen);
 
-// Indsæt resultat i ID
-document.getElementById("loen_result").innerHTML = new Intl.NumberFormat('da-DK').format(resultat) + ' Kr.';
-}
-</script>
+    // Indsæt resultat i ID
+    document.getElementById("loen_result").innerHTML = new Intl.NumberFormat('da-DK').format(resultat) + ' Kr.';
+    }
+    </script>
 </body>
 </html>
